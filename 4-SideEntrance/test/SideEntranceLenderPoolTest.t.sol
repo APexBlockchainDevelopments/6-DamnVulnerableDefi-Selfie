@@ -15,6 +15,8 @@ contract SideEntranceLenderTest is Test {
 
     address user = makeAddr("user");
 
+
+    
     function setUp() external {
         sideEntrancePool = new SideEntranceLenderPool();
         attackingContract = new AttackingContract(address(sideEntrancePool));
