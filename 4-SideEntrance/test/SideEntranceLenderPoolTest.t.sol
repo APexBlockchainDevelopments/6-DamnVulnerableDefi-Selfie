@@ -14,8 +14,6 @@ contract SideEntranceLenderTest is Test {
     uint256 public constant USER_STARTING_BALANCE = 1e18;
 
     address user = makeAddr("user");
-
-
     
     function setUp() external {
         sideEntrancePool = new SideEntranceLenderPool();
