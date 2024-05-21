@@ -12,6 +12,7 @@ contract SideEntranceLenderTest is Test {
 
     uint256 public constant POOL_STARTING_BALANCE = 1000e18;
     uint256 public constant USER_STARTING_BALANCE = 1e18;
+    
 
     address user = makeAddr("user");
     
