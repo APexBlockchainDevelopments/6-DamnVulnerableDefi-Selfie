@@ -22,7 +22,6 @@ contract NaiveReceiver is Test {
         vm.deal(address(flashLoanReceiver), ETHER_IN_RECEIVER);
     }
 
-
     function test_hack() public {
         attackNaiveReceiver = new AttackNaiveReceiver(address(naiveReceiverLenderPool), address(flashLoanReceiver));
 

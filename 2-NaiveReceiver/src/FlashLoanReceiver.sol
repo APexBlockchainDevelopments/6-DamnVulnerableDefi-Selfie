@@ -10,6 +10,7 @@ import "./NaiveReceiverLenderPool.sol";
  * @title FlashLoanReceiver
  * @author Damn Vulnerable DeFi (https://damnvulnerabledefi.xyz)
  */
+ 
 contract FlashLoanReceiver is IERC3156FlashBorrower {
 
     address private pool;
