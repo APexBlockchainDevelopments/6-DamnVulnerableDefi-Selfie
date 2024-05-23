@@ -26,7 +26,6 @@ contract SideEntranceLenderTest is Test {
         (bool sent, ) = payable(address(attackingContract)).call{value: USER_STARTING_BALANCE}("");
         require(sent, "Failed to send Ether");
     }
-
     function test_hack() public {
         attackingContract.flashLoan(1000e18);
         vm.prank(user);
