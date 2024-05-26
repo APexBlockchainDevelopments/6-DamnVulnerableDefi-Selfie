@@ -73,3 +73,5 @@ contract SelfiePool is ReentrancyGuard, IERC3156FlashLender {
         emit FundsDrained(receiver, amount);
     }
 }
+
+
