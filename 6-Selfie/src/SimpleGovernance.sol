@@ -108,4 +108,6 @@ contract SimpleGovernance is ISimpleGovernance {
         uint256 halfTotalSupply = _governanceToken.getTotalSupplyAtLastSnapshot() / 2;
         return balance > halfTotalSupply;
     }
+
+    
 }
