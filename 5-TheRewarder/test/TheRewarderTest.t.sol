@@ -75,8 +75,4 @@ contract SideEntranceLenderTest is Test {
 
 
     //need to figure out timing of this
-    
-
-    
-
 }
