@@ -36,6 +36,7 @@ contract FlashLoanReceiver is IERC3156FlashBorrower {
             }
         }
         
+        
         if (token != ETH)
             revert UnsupportedCurrency();
         
