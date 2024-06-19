@@ -18,7 +18,6 @@ contract SimpleGovernance is ISimpleGovernance {
         _governanceToken = DamnValuableTokenSnapshot(governanceToken);
         _actionCounter = 1;
     }
-
     function queueAction(address target, uint128 value, bytes calldata data) external returns (uint256 actionId) {
         if (!_hasEnoughVotes(msg.sender))
             revert NotEnoughVotes(msg.sender);
